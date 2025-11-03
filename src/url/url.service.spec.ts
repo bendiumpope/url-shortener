@@ -31,7 +31,7 @@ describe('UrlService', () => {
       (mockedCrypto.randomBytes as jest.Mock).mockReturnValueOnce(
         Buffer.from(shortCode, 'hex'),
       );
-
+      
       const result = await service.create({ longUrl });
 
       expect(result).toBe(shortCode);
@@ -85,13 +85,13 @@ describe('UrlService', () => {
     it('should handle the db file not existing', async () => {
       const shortCode = 'anycode';
       mockedFs.readFile.mockRejectedValueOnce({ code: 'ENOENT' });
-
+      
       await expect(service.findOne(shortCode)).rejects.toThrow(NotFoundException);
     });
 
     it('should throw an error for a malformed db file', async () => {
         mockedFs.readFile.mockResolvedValueOnce('not valid json');
-
+  
         await expect(service.findOne('anycode')).rejects.toThrow();
     });
   });
